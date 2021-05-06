@@ -31,7 +31,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>joe.App</mainClass>
+                    <mainClass>joe.Maze</mainClass>
                 </configuration>
             </plugin>
         </plugins>
