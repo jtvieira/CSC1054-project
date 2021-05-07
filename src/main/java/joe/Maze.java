@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -19,11 +20,9 @@ import java.util.Scanner;
 public class Maze extends Application {
 
     Canvas c = new Canvas();
-    int[][] mazeMap = new int [21][21];
     GraphicsContext gc = c.getGraphicsContext2D();
     int [] location = new int[2];
-    int count = 1;
-    Scanner scan;
+    int count = 0;
 
     @Override
     public void start(Stage stage){
@@ -39,20 +38,12 @@ public class Maze extends Application {
         stage.show();
 
         root.requestFocus();
-        try {
-            scan = new Scanner(new File("MazeMap.txt"));
-        } catch(FileNotFoundException fnfe) {
-            System.out.println("File not found");
-        }
+        
+        int[][] map = this.readFile();
 
+        
 
-        for (int i = 0; i < 21; i++) {
-            for(int j = 0; j < 21; j++) {
-                mazeMap[i][j] = scan.nextInt();
-            }
-        }
-
-        drawMaze(mazeMap);
+        drawMaze(map);
     }
 
     public void drawMaze(int[][] map) {
@@ -90,6 +81,30 @@ public class Maze extends Application {
         }
 
         return location;
+    }
+    
+    private int[][] readFile() {
+        Scanner scan = null;
+        File f = new File("/Users/jtv/Desktop/Maze.txt");
+        try {
+            System.out.println("attempting to read from: " + f.getCanonicalPath());
+            scan = scan = new Scanner(f);
+        } catch (FileNotFoundException fnfe) {
+            System.out.println("File not found");
+            fnfe.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        
+        int[][] mazeMap = new int [21][21];
+
+        for (int i = 0; i < 21; i++) {
+            for(int j = 0; j < 21; j++) {
+                mazeMap[i][j] = scan.nextInt();
+            }
+        }
+        
+        return mazeMap;
     }
 
     public static void main(String[] args) {
