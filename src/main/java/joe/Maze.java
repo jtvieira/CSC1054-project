@@ -15,13 +15,21 @@ import java.util.Scanner;
 
 
 /**
- * JavaFX App
+ * JavaFX App that is a maze game
+ *
+ * Author:
+ * Joe Vieira
+ * May 2021
  */
 public class Maze extends Application {
 
     Canvas c = new Canvas();
     GraphicsContext gc = c.getGraphicsContext2D();
+
+    //this variable will initially be used to store the location of the top right corner of each box to be drawn
+    //for the maze to be drawn
     int [] location = new int[2];
+    //variable to keep track of which row the program is drawing
     int count = 0;
 
     @Override
@@ -49,35 +57,33 @@ public class Maze extends Application {
     public void drawMaze(int[][] map) {
         location[0] = 0;
         location[1] = 0;
+        int[] here = {0, 0};
 
         for(int i = 0; i < 21; i++) {
             for(int j = 0; j < 21; j++) {
-                int[] here = locationTracker();
+
                 if(map[i][j] == 1) {
                     gc.setFill(Color.BLACK);
                     gc.fillRect(here[0], here[1], 25, 25);
-                }
-                if(map[i][j] == 0) {
+//                    System.out.println("Black square at: " + here[0] + " " + here[1]);
+                } else{
                     gc.setFill(Color.WHITE);
                     gc.fillRect(here[0], here[1], 25, 25);
+//                    System.out.println("White square at: " + here[0] + " " + here[1]);
                 }
+                here = locationTracker();
             }
         }
     }
 
+    /**Keeps track of the position of the top left corner of each box**/
     private int[] locationTracker() {
 
         location[0] += 25;
 
-        //checking to see if the x value of the location is within range
-        if(location[0] > 525) {
+        if(location[0] >= 525) {
             location[0] = 0;
-            count++; //will update which row we are on
-        }
-
-        location[1] += 25;
-        if(location[1] > 525) {
-            location[1] = count * 25;
+            location[1] += 25;
         }
 
         return location;
@@ -103,12 +109,14 @@ public class Maze extends Application {
                 mazeMap[i][j] = scan.nextInt();
             }
         }
-        
+//        String hello = mapString(mazeMap);
+//        System.out.println(hello);
         return mazeMap;
     }
 
     public static void main(String[] args) {
         launch();
     }
+
 
 }
